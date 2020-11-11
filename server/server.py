@@ -4,21 +4,21 @@ import json
 
 mongodb_url = "mongodb+srv://admin:admin@vroumscluster.geh4g.mongodb.net/VroumsCluster?retryWrites=true&w=majority"
 
-api = Flask(__name__)
-api.config["DEBUG"] = True
+app = Flask(__name__)
+app.config["DEBUG"] = True
 
 client = MongoClient(mongodb_url)
 database = client.VroumsDatabase
 
 
-@api.route('/404')
+@app.route('/404')
 def page_non_trouvee():
     reponse = make_response("Cette page devrait vous avoir renvoyé une erreur 404")
     reponse.status_code = 404
     return reponse
 
 
-@api.route('/highways', methods=['GET'])
+@app.route('/highways', methods=['GET'])
 def get_highways():
     highways_collection = database.highways
     highways_cursor = highways_collection.find({}, {'_id': False})
@@ -30,4 +30,4 @@ def get_highways():
 
 
 if __name__ == '__main__':
-    api.run()
+    app.run()
